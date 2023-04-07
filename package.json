@@ -6,7 +6,8 @@
     "dev": "nuxt",
     "build": "nuxt build",
     "start": "nuxt start",
-    "generate": "nuxt generate"
+    "generate": "nuxt generate",
+    "deploy": "push-dir --dir=dist --branch=gh-pages --cleanup"
   },
   "dependencies": {
     "@nuxtjs/auth-next": "5.0.0-1667386184.dfbbb54",
@@ -23,6 +24,7 @@
     "@nuxtjs/tailwindcss": "^5.3.3",
     "autoprefixer": "^10.4.14",
     "postcss": "^8.4.21",
+    "push-dir": "^0.4.1",
     "tailwindcss": "^3.3.1"
   },
   "resolutions": {
