@@ -6,22 +6,65 @@
       Manage your employees to achieve <br />
       a bigger goals for your company
     </p>
-    <form class="w-full card">
+    <form class="w-full card" @submit.prevent="userRegister">
       <div class="form-group">
-        <label for="" class="text-grey">Company Name</label>
-        <input type="text" class="input-field" />
+        <label for="" class="text-grey">Name</label>
+        <input type="text" class="input-field" v-model="register.name" />
       </div>
       <div class="form-group">
         <label for="" class="text-grey">Email Address</label>
-        <input type="email" class="input-field" />
+        <input type="email" class="input-field" v-model="register.email" />
       </div>
       <div class="form-group">
         <label for="" class="text-grey">Password</label>
-        <input type="password" class="input-field" />
+        <input type="password" class="input-field" v-model="register.password"/>
       </div>
-      <button type="button" class="w-full btn btn-primary mt-[14px]">
+      <button type="submit" class="w-full btn btn-primary mt-[14px]">
         Continue
       </button>
     </form>
   </section>
 </template>
+
+<script>
+export default {
+  auth: 'guest',
+  data() {
+    return {
+      register: {
+        name: '',
+        email: '',
+        password: ''
+      }
+    }
+  },
+  methods: {
+    async userRegister() {
+      try {
+        // send register data to server
+        let register = await this.$axios.post('/register', this.register)
+        // if success login user
+        try {
+          let login = await this.$auth.loginWith('local', { 
+            data: {
+              email: this.register.email,
+              password: this.register.password,
+            }
+          })
+        } catch (error) {
+          if(error != undefined) {
+            console.log(error,'login')
+            alert(error.result)
+          }
+        }
+      } catch (error) {
+        if(error != undefined) {
+          console.log(error, 'register')
+          alert(error.result)
+        }
+      }
+
+    }
+  }
+}
+</script>
